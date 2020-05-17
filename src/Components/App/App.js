@@ -38,6 +38,9 @@ export default class App extends Component {
     );
     this.setState({ playlistTracks: tracks });
   };
+  updatePlaylistName = (name) => {
+    this.setState({ PlaylistName: name });
+  };
   render() {
     return (
       <div>
@@ -55,6 +58,7 @@ export default class App extends Component {
               onRemove={this.removeTrack}
               playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
+              onNameChange={this.updatePlaylistName}
             />
           </div>
         </div>
