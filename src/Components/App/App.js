@@ -32,8 +32,9 @@ export default class App extends Component {
     this.setState({ playlistTracks: tracks });
   };
   updatePlaylistName = (name) => {
-    this.setState({ PlaylistName: name });
+    this.setState({ playlistName: name });
   };
+
   savePlaylist = () => {
     const trackURIs = this.state.playlistTracks.map((track) => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
@@ -45,7 +46,7 @@ export default class App extends Component {
   };
   search = (term) => {
     Spotify.search(term).then((searchResults) => {
-      this.setState({ searchResults: searchResults });
+      this.setState({ SearchResults: searchResults });
     });
   };
 

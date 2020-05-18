@@ -16,7 +16,7 @@ export default class Track extends Component {
     );
   };
   addTrack = () => {
-    this.props.onAdd();
+    this.props.onAdd(this.props.track);
   };
   removeTrack = () => {
     this.props.onRemove(this.props.track);
