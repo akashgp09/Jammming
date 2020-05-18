@@ -4,28 +4,21 @@ import "./App.css";
 import SearchBar from "../SearchBar/SearchBar";
 import Playlist from "../Playlist/Playlist";
 import SearchResults from "../SearchResults/SearchResults";
+import Spotify from "../../util/Spotify";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      SearchResults: [
-        { name: "name1", artist: "artist1", album: "album1" },
-        { name: "name2", artist: "artist2", album: "album2" },
-        { name: "name3", artist: "artist3", album: "album3" },
-      ],
+      SearchResults: [],
       playlistName: "Bohemian Rhapsody",
-      playlistTracks: [
-        { id: 1, name: "name1", artist: "artist1", album: "album1" },
-        { id: 2, name: "name2", artist: "artist2", album: "album2" },
-        { id: 3, name: "name3", artist: "artist3", album: "album3" },
-      ],
+      playlistTracks: [],
     };
   }
   addTrack = (track) => {
     const tracks = this.state.playlistTracks;
-    if (tracks.find((savedTrack) => savedTrack.id == track.id)) {
+    if (tracks.find((savedTrack) => savedTrack.id === track.id)) {
       return;
     }
 
@@ -41,6 +34,21 @@ export default class App extends Component {
   updatePlaylistName = (name) => {
     this.setState({ PlaylistName: name });
   };
+  savePlaylist = () => {
+    const trackURIs = this.state.playlistTracks.map((track) => track.uri);
+    Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
+      this.setState({
+        playlistName: "New Playlist",
+        playlistTracks: [],
+      });
+    });
+  };
+  search = (term) => {
+    Spotify.search(term).then((searchResults) => {
+      this.setState({ searchResults: searchResults });
+    });
+  };
+
   render() {
     return (
       <div>
@@ -48,7 +56,7 @@ export default class App extends Component {
           Ja<span className="highlight">mmm</span>ing
         </h1>
         <div className="App">
-          <SearchBar />
+          <SearchBar onSearch={this.search} />
           <div className="App-playlist">
             <SearchResults
               searchResults={this.state.SearchResults}
@@ -59,6 +67,7 @@ export default class App extends Component {
               playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
               onNameChange={this.updatePlaylistName}
+              onSave={this.savePlaylist}
             />
           </div>
         </div>
