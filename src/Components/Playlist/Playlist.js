@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TrackList from "../TrackList/TrackList";
 import "./Playlist.css";
 export default class Playlist extends Component {
+  // This method Updates the Playlist Name to users's input
   handleNameChange = (event) => {
     this.props.onNameChange(event.target.value);
   };

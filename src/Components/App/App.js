@@ -9,13 +9,13 @@ import Spotify from "../../util/Spotify";
 export default class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       SearchResults: [],
-      playlistName: "Bohemian Rhapsody",
+      playlistName: "Your playlist",
       playlistTracks: [],
     };
   }
+  //This method add a new track to the playlist
   addTrack = (track) => {
     const tracks = this.state.playlistTracks;
     if (tracks.find((savedTrack) => savedTrack.id === track.id)) {
@@ -25,16 +25,18 @@ export default class App extends Component {
     tracks.push(track);
     this.setState({ playlistTracks: tracks });
   };
+  // This method removes a track from the playlist
   removeTrack = (track) => {
     const tracks = this.state.playlistTracks.filter(
       (currentTrack) => currentTrack.id !== track.id
     );
     this.setState({ playlistTracks: tracks });
   };
+  // This method Updates the Playlist Name to users's input
   updatePlaylistName = (name) => {
     this.setState({ playlistName: name });
   };
-
+  //This Method Push your custom playlist to your spotify Account
   savePlaylist = () => {
     const trackURIs = this.state.playlistTracks.map((track) => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
@@ -44,6 +46,7 @@ export default class App extends Component {
       });
     });
   };
+  //This method Searchs a song/artist/album provided by the user in the searchbar
   search = (term) => {
     Spotify.search(term).then((searchResults) => {
       this.setState({ SearchResults: searchResults });
