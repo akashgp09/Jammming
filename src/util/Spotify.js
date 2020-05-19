@@ -1,20 +1,20 @@
 const clientId = "Add Your Own ClientId Here"; //Generate your ClientId on Spotify's site : https://developer.spotify.com/dashboard/login
-const redirectUri = "http://localhost:3000/"; //Your site Name
+const redirectUri = "https://jam-songs.surge.sh/"; //Your site Name
 
 let accessToken;
 
 const Spotify = {
+  // this method provides you the accessToken to further communicate with the Spotify Api
   getAccessToken() {
     if (accessToken) {
       return accessToken;
     }
-
     const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
     const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
     if (accessTokenMatch && expiresInMatch) {
       accessToken = accessTokenMatch[1];
       const expiresIn = Number(expiresInMatch[1]);
-      window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
+      window.setTimeout(() => (accessToken = ""), expiresIn * 1000); // the code wipes the access token and URL parameters.
       window.history.pushState("Access Token", null, "/"); // This clears the parameters, allowing us to grab a new access token when it expires.
       return accessToken;
     } else {
@@ -22,7 +22,7 @@ const Spotify = {
       window.location = accessUrl;
     }
   },
-
+  // This Method search for the provided 'term'
   search(term) {
     const accessToken = Spotify.getAccessToken();
     return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
@@ -46,16 +46,14 @@ const Spotify = {
         }));
       });
   },
-
+  // This method saves Your custom created playlist to spotify
   savePlaylist(name, trackUris) {
     if (!name || !trackUris.length) {
       return;
     }
-
     const accessToken = Spotify.getAccessToken();
     const headers = { Authorization: `Bearer ${accessToken}` };
     let userId;
-
     return fetch("https://api.spotify.com/v1/me", { headers: headers })
       .then((response) => response.json())
       .then((jsonResponse) => {
@@ -82,6 +80,3 @@ const Spotify = {
 };
 
 export default Spotify;
-
-// WEBPACK FOOTER //
-// ./src/util/Spotify.js
