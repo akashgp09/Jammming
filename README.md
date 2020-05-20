@@ -22,7 +22,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Preview:
+<h2>Preview:</h2>
 <img src="https://github.com/Akash-Gupta-Sudo/Jammming/blob/master/public/Screenshot%20(78).png">
-  
-  <H2>Hosted at: https://jam-songs.surge.sh/ </h2>
+
+<h3>Hosted at: https://jam-songs.surge.sh/ </h3>
